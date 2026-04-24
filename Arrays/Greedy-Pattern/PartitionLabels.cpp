@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+vector<int> partitionLabels(string s) {
+    vector<int> last(26);
+
+    for(int i = 0; i < s.size(); i++) {
+        last[s[i] - 'a'] = i;
+    }
+
+    vector<int> result;
+    int start = 0;
+    int end = 0;
+
+    for(int i = 0; i < s.size(); i++) {
+        end = max(end, last[s[i] - 'a']);
+
+        if(i == end) {
+            result.push_back(end - start + 1);
+            start = i + 1;
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    string s = "ababcbacadefegdehijhklij";
+
+    vector<int> ans = partitionLabels(s);
+
+    cout << "Partition sizes: ";
+    for(int x : ans) {
+        cout << x << " ";
+    }
+
+    return 0;
+}
